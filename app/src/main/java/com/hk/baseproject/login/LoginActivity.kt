@@ -36,15 +36,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun observeViewModel(){
-        viewModel.isDataLoadingError.observe(this,{isDataLoadingError->
-            isDataLoadingError?.let {
-                val activityIntent= Intent(applicationContext, MainActivity::class.java)
-                startActivity(activityIntent)
-                finish() }
-        })
         viewModel.dataLoading.observe(this, {isLoading->
             isLoading?.let {
-                binding.loadingView.visibility=if(it) View.VISIBLE else View.GONE
+                if(it){
+                    binding.loadingView.visibility=View.VISIBLE
+                }else{
+                    binding.loadingView.visibility=View.GONE
+                    val activityIntent= Intent(applicationContext, MainActivity::class.java)
+                    startActivity(activityIntent)
+                    finish()
+                }
             }
         })
     }
